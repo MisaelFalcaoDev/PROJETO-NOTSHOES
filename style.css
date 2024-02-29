@@ -6,11 +6,13 @@
     padding: 0%;
 }
 .nav-item{
+    padding: 3px;
+}
+.nav-link{
     transition: .5s linear;
-    padding: 5px;
     border-radius: 15px;
 }
-.nav-item:hover{
+.nav-link:hover{
     background-color: white;
 }
 .btn{
