@@ -1,9 +1,12 @@
 .top{
     padding: 5px;
-    background-color: #6aa9e9;
+    background-color: #91c8ff;
 }
 .navbar{
     padding: 0%;
+}
+.navbar-brand{
+    margin-left: 30px;
 }
 .nav-item{
     transition: .5s linear;
@@ -26,12 +29,14 @@
     border-radius: 10px;
     background-color: rgb(214, 31, 31);
 }
+
 .barras-adicionais{
     width: 97%;
     height: 45px;
     margin-top: 10px;
     border-radius: 10px;
     background-color: #6aa9e9;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .card-group{
     padding: 20px;
