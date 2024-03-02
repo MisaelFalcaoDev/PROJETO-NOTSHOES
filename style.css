@@ -73,3 +73,14 @@ footer {
     color: #4d4d4d;
     z-index: 0;
 }
+form{
+    width: 60%;
+}
+
+/*configuração responsiva para aparelhos móveis (celular e tablet)*/
+@media screen and (max-width: 62.5em){
+    form {
+        width: 100%;
+        padding: 8px;
+    }
+}
