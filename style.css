@@ -17,6 +17,12 @@
 .nav-item:hover{
     background-color: white;
 }
+.form-control{
+    border-radius: 20px;
+}
+.lupa{
+    border-radius: 20px;
+}
 .btn{
     border: 0cap;
     transition: .5s;
