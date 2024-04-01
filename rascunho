@@ -1,0 +1,195 @@
+// Criar uma div para os botões
+            const botoesDiv = document.createElement('div');
+            botoesDiv.classList.add('botoes');
+
+            // Criar botões e adicioná-los à div de botões
+            const button2 = document.createElement('button');
+            button2.innerHTML = '<img src="../svg/svg-coracao.svg" style="width:25px; height:25px" alt="Adicionar aos Favoritos">';
+            button2.style.backgroundColor = '#FF204E';
+            botoesDiv.appendChild(button2);
+
+            const button3 = document.createElement('button');
+            button3.innerHTML = '<img src="../svg/svg-carrinho.svg" style="width:25px; height:25px" alt="Adicionar aos Favoritos">';
+            button3.style.backgroundColor = '#15F5BA';
+            botoesDiv.appendChild(button3);
+
+            // Adicionar a div de botões à div de produto
+            produtoDiv.appendChild(botoesDiv);
+
+            // Adicionar a div do produto à div de resultados
+            resultadoDiv.appendChild(produtoDiv);
+
+
+
+
+
+
+///////////////////////////////////////////
+
+
+            document.addEventListener("DOMContentLoaded", function() {
+                // Obter o termo de pesquisa da query string
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+                const searchTerm = urlParams.get('search');
+            
+                const apiUrl = `http://localhost:5000/busca_produto/${encodeURIComponent(searchTerm)}`;
+            
+                // Chamar a API para buscar os resultados da pesquisa
+                fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao buscar o produto');
+                    }
+                    return response.json();
+                })
+                .then(dados => {
+                    // Exibir os resultados na div 'resultadoPesquisa'
+                    exibirResultados(dados);
+                })
+                .catch(error => {
+                    console.error('Erro na busca do produto:', error);
+                    exibirResultados([]);
+                });
+            
+            });
+            
+            // Função para exibir os resultados na página
+            function exibirResultados(resultados) {
+                const resultadoDiv = document.getElementById('resultadoPesquisa');
+                resultadoDiv.innerHTML = '';
+            
+                if (resultados.length > 0) {
+                    resultados.forEach(produto => {
+                        // Criar uma nova div para cada produto
+                        const produtoDiv = document.createElement('div');
+                        produtoDiv.classList.add('produto');
+            
+                        // Adicionar os detalhes do produto à div do produto
+                        produtoDiv.innerHTML = `
+                            <img src="${produto[6]}" alt="Produto">
+                            <div class="card-body">
+                                <h2 class="card-title">${produto[1]}</h2>
+                                <p class="card-price">R$${produto[4]}</p>
+                                <span id="toggleDescription" style="display: none;">${produto[3]}</span></p>
+                                <button class="show-more-btn" id="toggleButton">Mostrar Mais</button>
+                            </div>
+                        `;
+            
+                        // Adicionar a div do produto à div de resultados
+                        resultadoDiv.appendChild(produtoDiv);
+            
+                        // Adicionar evento de clique a todos os botões "Mostrar Mais"
+                        const buttons = produtoDiv.querySelectorAll('.show-more-btn');
+                        buttons.forEach(function(button) {
+                            button.addEventListener('click', function() {
+                                const description = this.parentNode.querySelector('.card-description');
+                                if (description.style.display === 'none') {
+                                    description.style.display = 'block';
+                                    button.textContent = 'Mostrar Menos';
+                                } else {
+                                    description.style.display = 'none';
+                                    button.textContent = 'Mostrar Mais';
+                                }
+                            });
+                        });
+                    });
+                } else {
+                    resultadoDiv.innerHTML = '<p>Nenhum produto encontrado.</p>';
+                }
+            
+                
+            }
+            
+            
+
+
+
+
+            //////////////////////////////////////////////////
+            // Função para exibir os resultados na página
+function exibirResultados(resultados) {
+    const resultadoDiv = document.getElementById('resultadoPesquisa');
+    resultadoDiv.innerHTML = '';
+
+    if (resultados.length > 0) {
+        resultados.forEach(produto => {
+            // Criar uma nova div para cada produto
+            const produtoDiv = document.createElement('div');
+            produtoDiv.classList.add('produto');
+
+            // Adicionar os detalhes do produto à div do produto
+            produtoDiv.innerHTML = `
+                <img src="${produto[6]}">
+                <p>${produto[1]}</p>
+                <h5 id="preco">R$ ${produto[4]}</h5>
+            `;
+
+            // Criar uma div para os botões
+            const botoesDiv = document.createElement('div');
+            botoesDiv.classList.add('botoes');
+
+            // Criar botões e adicioná-los à div de botões
+            const button1 = document.createElement('button');
+            button1.textContent = 'Detalhes';
+            button1.addEventListener('click', function() {
+                // Expandir a div do produto
+                if (produtoDiv.classList.contains('expandido')) {
+                    // Se a div já estiver expandida, recolha
+                    produtoDiv.classList.remove('expandido');
+                    removerDetalhes(produtoDiv);
+                } else {
+                    // Caso contrário, expanda
+                    produtoDiv.classList.add('expandido');
+                    exibirDetalhes(produto, produtoDiv);
+                }
+            });
+            botoesDiv.appendChild(button1);
+
+            const button2 = document.createElement('button');
+            button2.innerHTML = '<img src="../svg/svg-coracao.svg" style="width:25px; height:25px" alt="Adicionar aos Favoritos">';
+            button2.style.backgroundColor = '#FF204E';
+            botoesDiv.appendChild(button2);
+
+            const button3 = document.createElement('button');
+            button3.innerHTML = '<img src="../svg/svg-carrinho.svg" style="width:25px; height:25px" alt="Adicionar aos Favoritos">';
+            button3.style.backgroundColor = '#15F5BA';
+            botoesDiv.appendChild(button3);
+
+            // Adicionar a div de botões à div de produto
+            produtoDiv.appendChild(botoesDiv);
+
+            // Adicionar a div do produto à div de resultados
+            resultadoDiv.appendChild(produtoDiv);
+        });
+    } else {
+        resultadoDiv.innerHTML = '<p>Nenhum produto encontrado.</p>';
+    }
+
+    function exibirDetalhes(produto, produtoDiv) {
+        // Verificar se os detalhes já foram adicionados
+        const detalhesExistem = produtoDiv.querySelector('.detalhes-adicionados');
+        
+        // Se os detalhes já existirem, remova-os
+        if (detalhesExistem) {
+            produtoDiv.removeChild(detalhesExistem);
+        } else {
+            // Adicionar os detalhes completos do produto
+            const detalhesDiv = document.createElement('div');
+            detalhesDiv.classList.add('detalhes-adicionados'); // Adicionar classe para identificar os detalhes
+            detalhesDiv.innerHTML = `
+                <p>Tamanho: ${produto[2]}</p>
+                <p>Descrição: ${produto[3]}</p>
+            `;
+            produtoDiv.appendChild(detalhesDiv);
+        }
+    }
+    
+    
+    function removerDetalhes(produtoDiv) {
+        // Remover apenas os detalhes adicionados
+        const detalhesDiv = produtoDiv.querySelector('.detalhes-adicionados');
+        if (detalhesDiv) {
+            produtoDiv.removeChild(detalhesDiv);
+        }
+    }

@@ -1,0 +1,10 @@
+
+section{
+    display: flex;
+    padding: 30px;
+}
+
+.box {
+    margin: 10px; /* Adiciona margem entre as divs */
+    padding: 20px;
+}
