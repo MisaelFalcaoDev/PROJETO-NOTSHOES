@@ -59,12 +59,18 @@
 .card:hover{
     transform: scale(1.1);
 }
-
+.card-body, img{
+    cursor: pointer;
+}
 .card-text{
     font-size: 13px;
     font-weight: bold;
     margin-bottom: 0px;
     color: gray;
+}
+.filtro-marca{
+    color: transparent;
+    font-size: 0;
 }
 
 footer .menus ul {

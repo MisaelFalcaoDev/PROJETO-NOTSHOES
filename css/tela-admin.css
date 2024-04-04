@@ -1,0 +1,8 @@
+.card{
+    display: inline-block;
+    max-height: 450px;
+}
+
+.card img{
+    padding-top: 30px;
+}

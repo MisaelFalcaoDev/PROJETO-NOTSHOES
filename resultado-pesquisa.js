@@ -38,12 +38,14 @@ function exibirResultados(resultados) {
 
             // Adicionar os detalhes do produto à div do produto
             produtoDiv.innerHTML = `
+            <div clas="banner">
                 <img src="${produto[6]}" alt="Produto">
                 <div class="card-body">
                     <h2 class="card-title">${produto[1]}</h2>
                     <p class="card-price">R$${produto[4]}</p>
                     <p class="card-description" style="display: none;">${produto[3]}</p>
                 </div>
+            </div>
             `;
 
             // Adicionar a div do produto à div de resultados
@@ -71,10 +73,16 @@ function exibirResultados(resultados) {
             const button2 = document.createElement('favoritos');
             button2.innerHTML = '<img src="../svg/svg-coracao.svg" style="width:25px; height:25px" alt="Adicionar aos Favoritos">';
             produtoDiv.appendChild(button2);
+            button2.addEventListener('click', function() {
+                /*const apiUrl = `http://localhost:5000/adicionar-favoritos/${encodeURIComponent(searchTerm)}`;*/
+            });
 
             const button3 = document.createElement('compras');
             button3.innerHTML = '<img src="../svg/svg-carrinho.svg" style="width:25px; height:25px" alt="Adicionar aos Favoritos">';
             produtoDiv.appendChild(button3);
+            button3.addEventListener('click', function() {
+                /*const apiUrl = `http://localhost:5000/adicionar-carrinho/${encodeURIComponent(searchTerm)}`;*/
+            });
         });
     } else {
         resultadoDiv.innerHTML = '<p>Nenhum produto encontrado.</p>';
