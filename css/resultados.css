@@ -5,6 +5,15 @@ body {
     background-color: #f4f4f4;
   }
   
+.banner{
+  display: flex;
+}
+
+h5{
+  padding: 5px;
+  font-style: italic;
+}
+
 #resultadoPesquisa{
     justify-content: center;
     padding: 20px;
@@ -24,7 +33,7 @@ body {
     z-index: 1; /* Defina um índice de empilhamento */
   }
   .produto.expandido {
-    height: 600px; /* Para permitir que a div expanda conforme necessário */
+    height: 580px; /* Para permitir que a div expanda conforme necessário */
     position: relative; /* Mantenha a posição como relativa */
     z-index: 2; /* Aumente o índice de empilhamento para que a div expandida fique acima */
   }
@@ -70,7 +79,7 @@ body {
 
   .produto favoritos {
     margin-bottom: 20px;
-    margin-left: 15px;
+    margin-left: 13px;
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px 20px;
@@ -83,7 +92,7 @@ body {
 
   .produto compras {
     margin-bottom: 20px;
-    margin-left: 15px;
+    margin-left: 13px;
     color: #fff;
     border: 1px solid black;
     border-radius: 5px;

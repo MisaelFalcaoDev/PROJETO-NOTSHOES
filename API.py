@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, make_response, request
+
+
 import psycopg2
 import json
-
 app = Flask(__name__)
+
 # instale o postgres antes, e pra rodar os comandos abaixo, execute o cmd como administrador
 
 # Iniciar o bd > pg_ctl -D "F:\PostgreSQL\data" start
@@ -272,17 +274,46 @@ def filtrar_produto_categoria(nomeCategoria):
 def create_login_cliente():
     data = request.get_json()
 
+    # Inicia a transação
     comando = db_connection.cursor()
-    db_connection.rollback()
-    comando.execute("INSERT INTO loja.Cliente (genero, nome, email, senha, cpf, idEndereco, idListaDesejos, "
-                    "idCarrinho) VALUES (null, %s, %s, MD5(%s), null, null, null, null)",
-                    (data['nome'], data['email'], data['senha']))
 
-    db_connection.commit()
-    comando.close()
+    try:
+        # Inserir o cliente
+        comando.execute("INSERT INTO loja.Cliente (genero, nome, email, senha, cpf, idEndereco, idListaDesejos, "
+                        "idCarrinho) VALUES (null, %s, %s, MD5(%s), null, null, null, null)",
+                        (data['nome'], data['email'], data['senha']))
 
-    print(json.dumps({'message': 'Usuario criado com sucesso!'}))
-    return json.dumps({'message': 'Usuario criado com sucesso!'})
+        # Recuperar o ID do cliente inserido
+        comando.execute("SELECT idCliente FROM loja.Cliente WHERE email = %s", (data['email'],))
+        id_cliente = comando.fetchone()[0]
+
+        # Inserir o carrinho para o cliente
+        comando.execute("INSERT INTO loja.Carrinho (qtdItens) VALUES (0) RETURNING idCarrinho")
+        id_carrinho = comando.fetchone()[0]
+
+        # Atualizar o cliente com o ID do carrinho
+        comando.execute("UPDATE loja.Cliente SET idCarrinho = %s WHERE idCliente = %s", (id_carrinho, id_cliente))
+
+        # Inserir a lista de desejos para o cliente
+        comando.execute("INSERT INTO loja.ListaDeDesejos DEFAULT VALUES RETURNING idListaDesejos")
+        id_lista_desejos = comando.fetchone()[0]
+
+        # Atualizar o cliente com o ID da lista de desejos
+        comando.execute("UPDATE loja.Cliente SET idListaDesejos = %s WHERE idCliente = %s",
+                        (id_lista_desejos, id_cliente))
+
+        # Commit das operações no banco de dados
+        db_connection.commit()
+
+        # Fechar o cursor
+        comando.close()
+
+        return jsonify({'message': 'Usuário criado com sucesso!'}), 201
+
+    except Exception as e:
+        # Em caso de erro, rollback da transação e retorno de mensagem de erro
+        db_connection.rollback()
+        return jsonify({'error': str(e)}), 500
 
 
 # Rota para atualizar dados de cliente

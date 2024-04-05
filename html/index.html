@@ -9,6 +9,7 @@
     <title>Loja de roupas | Notshoes</title>
     <link rel="stylesheet" href="../css/style.css" />
     <script src="../botao-pesquisa.js"></script>
+    <script src="/index.js"></script>
 
 </head>
 
@@ -142,34 +143,34 @@
       <!--Cards com os itens em promoção-->
       <section class="cards-filtros">
         <div class="card-group">
-          <div class="card filtro" >
+          <div class="card filtro" onclick="acaoFiltro(this)">
             <img src="https://static.netshoes.com.br/produtos/tenis-nike-downshifter-12-feminino/06/2IC-8612-006/2IC-8612-006_zoom1.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h3 class="card-title">Tênis</h3>
+              <h3 id="tênis" class="card-title">Tênis</h3>
             </div>
           </div>
-          <div class="card filtro">
+          <div class="card filtro" onclick="acaoFiltro(this)">
             <img src="https://static.netshoes.com.br/produtos/camisa-vasco-ii-2425-sn-torcedor-kappa-masculina/28/D24-5949-028/D24-5949-028_zoom1.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h3 class="card-title">Camisas</h3>
+              <h3 id="camisa" class="card-title">Camisa</h3>
             </div>
           </div>
-          <div class="card filtro">
+          <div class="card filtro" onclick="acaoFiltro(this)">
             <img src="https://static.netshoes.com.br/produtos/mochila-adidas-linear-unissex/26/FB8-4525-026/FB8-4525-026_zoom1.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h3 class="card-title">Mochilas</h3>
+              <h3 id="mochila" class="card-title">Mochila</h3>
             </div>
           </div>
-          <div class="card filtro">
+          <div class="card filtro" onclick="acaoFiltro(this)">
             <img src="https://static.netshoes.com.br/produtos/jaqueta-puffer-becker-nylon-masculino-com-bolsos-e-capuz/06/6QW-0361-006/6QW-0361-006_zoom1.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h3 class="card-title">Jaquetas</h3>
+              <h3 id="jaqueta" class="card-title">Jaqueta</h3>
             </div>
           </div>
-          <div class="card filtro">
+          <div class="card filtro" onclick="acaoFiltro(this)">
             <img src="https://static.netshoes.com.br/produtos/calca-moletom-nike-nsw-club-jsy-masculina/26/HZM-1929-026/HZM-1929-026_zoom1.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h3 class="card-title">Calças</h3>
+              <h3 id="calça" class="card-title">Calça</h3>
             </div>
           </div>
         </div>
@@ -183,22 +184,28 @@
       <!--Cards com as marcas-->
       <section class="cards-filtros">
         <div class="card-group">
-          <div class="card filtro-marca" >
-            <img src="https://static.netshoes.com.br/bnn/l_netshoes/2023-09-21/405_adidas.png" class="card-img-top" alt="...">
+          <div class="card filtro-marca" onclick="acao(this)">
+            adidas
+            <img src="https://static.netshoes.com.br/bnn/l_netshoes/2023-09-21/405_adidas.png" class="card-img-top" alt="adidas">
           </div>
-          <div class="card filtro-marca">
+          <div class="card filtro-marca" onclick="acao(this)">
+            nike
             <img src="https://static.netshoes.com.br/bnn/l_netshoes/2023-09-21/7286_nike.png" class="card-img-top" alt="...">
           </div>
-          <div class="card filtro-marca">
+          <div class="card filtro-marca" onclick="acao(this)">
+            mizuno
             <img src="https://static.netshoes.com.br/bnn/l_netshoes/2023-09-21/3585_mizuno.png" class="card-img-top" alt="...">
           </div>
-          <div class="card filtro-marca">
+          <div class="card filtro-marca" onclick="acao(this)">
+            olympikus
             <img src="https://static.netshoes.com.br/bnn/l_netshoes/2023-09-21/5274_olympikus.png" class="card-img-top" alt="...">
           </div>
-          <div class="card filtro-marca" >
+          <div class="card filtro-marca" onclick="acao(this)">
+            puma
             <img src="https://static.netshoes.com.br/bnn/l_netshoes/2023-09-21/6877_puma.png" class="card-img-top" alt="...">
           </div>
-          <div class="card filtro-marca" >
+          <div class="card filtro-marca" onclick="acao(this)">
+            fila
             <img src="https://static.netshoes.com.br/bnn/l_netshoes/2023-09-21/2680_fila.png" class="card-img-top" alt="...">
           </div>
         </div>
