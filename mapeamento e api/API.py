@@ -376,5 +376,120 @@ def validar_login_cliente():
         return response
 
 
+# Rota para adicionar produto na lista de desejos do cliente
+@app.route('/adicionar_lista_desejos', methods=['POST'])
+def adicionar_lista_desejos():
+    data = request.get_json()
+
+    idProduto = data['idProduto']
+    idCliente = data['idCliente']
+
+    comando = db_connection.cursor()
+    db_connection.rollback()
+    comando.execute("SELECT idListaDesejos FROM loja.cliente WHERE idCliente = %s", (idCliente,))
+    idListaDesejos = comando.fetchone()[0]
+
+    comando.execute("INSERT INTO loja.ProdutoListaDesejos (idProduto, idListaDesejos) VALUES (%s, %s)", (idProduto, idListaDesejos))
+
+    db_connection.commit()
+    comando.close()
+
+    print(json.dumps({'message': 'O produto foi adicionado a lista de desejos.'}))
+    return json.dumps({'message': 'O produto foi adicionado a lista de desejos.'})
+
+
+# Rota para remover produto da lista de desejos do cliente
+@app.route('/remover_lista_desejos', methods=['POST'])
+def remover_lista_desejos():
+    data = request.get_json()
+
+    idProduto = data['idProduto']
+    idCliente = data['idCliente']
+
+    comando = db_connection.cursor()
+    db_connection.rollback()
+
+    # Verificar se o produto está na lista de desejos do cliente antes de remover
+    comando.execute(
+        "SELECT COUNT(*) FROM loja.ProdutoListaDesejos WHERE idProduto = %s AND idListaDesejos = (SELECT idListaDesejos FROM loja.Cliente WHERE idCliente = %s)",
+        (idProduto, idCliente))
+    produto_existente = comando.fetchone()[0]
+
+    if produto_existente > 0:
+        # Remover o produto da lista de desejos
+        comando.execute(
+            "DELETE FROM loja.ProdutoListaDesejos WHERE idProduto = %s AND idListaDesejos = (SELECT idListaDesejos FROM loja.Cliente WHERE idCliente = %s)",
+            (idProduto, idCliente))
+        db_connection.commit()
+        comando.close()
+        message = {'message': 'O produto foi removido da lista de desejos.'}
+    else:
+        comando.close()
+        message = {'message': 'O produto nao esta na lista de desejos do cliente.'}
+
+    print(json.dumps(message))
+    return json.dumps(message)
+
+
+# Rota para adicionar itens no carrinho do cliente
+@app.route('/adicionar_produto_carrinho', methods=['POST'])
+def adicionar_produto_carrinho():
+    data = request.get_json()
+
+    idProduto = data['idProduto']
+    idCliente = data['idCliente']
+
+    comando = db_connection.cursor()
+    db_connection.rollback()
+
+    # Verificar se o produto já está no carrinho do cliente
+    comando.execute("SELECT quantidade FROM loja.Item WHERE idProduto = %s AND idCarrinho = (SELECT idCarrinho FROM loja.Cliente WHERE idCliente = %s)", (idProduto, idCliente))
+    registro = comando.fetchone()
+
+    if registro:
+        # Se o produto já está no carrinho, atualize a quantidade
+        nova_quantidade = registro[0] + 1
+        comando.execute("UPDATE loja.Item SET quantidade = %s WHERE idProduto = %s AND idCarrinho = (SELECT idCarrinho FROM loja.Cliente WHERE idCliente = %s)", (nova_quantidade, idProduto, idCliente))
+    else:
+        # Caso contrário, adicione o produto ao carrinho com quantidade 1
+        comando.execute("INSERT INTO loja.Item (idProduto, idCarrinho, quantidade) VALUES (%s, (SELECT idCarrinho FROM loja.Cliente WHERE idCliente = %s), %s)", (idProduto, idCliente, 1))
+
+    db_connection.commit()
+    comando.close()
+
+    # Responder com uma mensagem JSON
+    message = {'message': 'O produto foi adicionado ao carrinho.'}
+    print(json.dumps(message))
+    return json.dumps(message)
+
+# Rota para remover itens do carrinho do cliente
+@app.route('/remover_item_carrinho', methods=['POST'])
+def remover_item_carrinho():
+    data = request.get_json()
+
+    idProduto = data['idProduto']
+    idCliente = data['idCliente']
+
+    comando = db_connection.cursor()
+    db_connection.rollback()
+
+    # Verificar se o produto está no carrinho do cliente
+    comando.execute("SELECT COUNT(*) FROM loja.Item WHERE idProduto = %s AND idCarrinho = (SELECT idCarrinho FROM loja.Cliente WHERE idCliente = %s)", (idProduto, idCliente))
+    produto_existente = comando.fetchone()[0]
+
+    if produto_existente > 0:
+        # Remover o produto do carrinho
+        comando.execute("DELETE FROM loja.Item WHERE idProduto = %s AND idCarrinho = (SELECT idCarrinho FROM loja.Cliente WHERE idCliente = %s)", (idProduto, idCliente))
+        db_connection.commit()
+        comando.close()
+        message = {'message': 'O produto foi removido do carrinho.'}
+    else:
+        comando.close()
+        message = {'message': 'O produto nao esta no carrinho do cliente.'}
+
+    print(json.dumps(message))
+    return json.dumps(message)
+
+
 if __name__ == '__main__':
     app.run(port=5000, host="localhost", debug=True)
