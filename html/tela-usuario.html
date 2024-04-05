@@ -79,22 +79,30 @@
             </div>
     
             <div class="box">
-                <p>Informações de do usuário</p>
-                <input class="form-control" type="text" placeholder="Nome completo" aria-label="default input example">
+                <p>Informações do usuário</p>
+                
+                <input class="form-control" type="text" id="nomeCliente" placeholder="Nome completo" aria-label="default input example">
+
+                <input class="form-control" type="text" id="cpfCliente" placeholder="CPF " aria-label="default input example">
     
-                <input class="form-control" type="text" placeholder="E-mail" aria-label="default input example">
+                <input class="form-control" type="text" id="emailCliente" placeholder="E-mail" aria-label="default input example">
     
-                <input class="form-control" type="text" placeholder="CPF " aria-label="default input example">
+                <input class="form-control" type="text" id="senhaCliente" placeholder="Crie uma senha" aria-label="default input example">
     
                 <p>Informações de localidade</p>
-                <input class="form-control" type="text" placeholder="Rua" aria-label="default input example">
+                <input class="form-control" type="text" id="ruaCliente" placeholder="Rua" aria-label="default input example">
     
-                <input class="form-control" type="text" placeholder="Bairro" aria-label="default input example">
+                <input class="form-control" type="text" id="bairroCliente"  placeholder="Bairro" aria-label="default input example">
     
-                <input class="form-control" type="text" placeholder="Cidade" aria-label="default input example">
-    
+                <input class="form-control" type="text" id="cidadeCliente" placeholder="Cidade" aria-label="default input example">
+                <br>
+                <button id="cadastrarCliente" class="btn btn-outline-warning" type="submit" onclick="enviarDadosCadastro()">
+                  <a>Cadastrar</a>
+              </button>
+     
             </div>
         </section>
         
       </main>
+      <script src="../cadastro.js"></script>
 </body>
